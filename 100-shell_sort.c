@@ -4,7 +4,7 @@
  * shell_sort - sing the Shell sort algorithm
  * @array: Array to be Sorted
  * @size:size of the array
- * Return:Sorted Array (void)
+ * Return:Sorted Array (void
  */
 void shell_sort(int *array, size_t size)
 {

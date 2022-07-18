@@ -4,7 +4,7 @@
 /**
  *counting_sort - sort and array by counting sort method
  *@array: input array to be sorted
- *@size: size of the array
+ *@size: size of the arrays
  *
  *Return: Nothing,
  */

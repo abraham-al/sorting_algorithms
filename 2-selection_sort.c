@@ -32,7 +32,7 @@ int mini(int *array, int index, size_t size)
  *
  * @array: an array store
  * @size: an array size
- * @size: sizesssss
+ * @size: sizessss
  */
 void selection_sort(int *array, size_t size)
 {

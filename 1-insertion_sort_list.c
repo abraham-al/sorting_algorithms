@@ -27,7 +27,7 @@ void swap(listint_t *a, listint_t *b, listint_t **head)
 }
 /**
  * insertion_sort_list  - sorts a doubly linked list Insertion sort
- * @list: doubly liked list
+ * @list: doubly liked list of
  *
  */
 void insertion_sort_list(listint_t **list)

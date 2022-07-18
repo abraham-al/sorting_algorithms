@@ -64,7 +64,7 @@ void quick(int *array, int low, int high, size_t size)
  * @array: array to be sorted
  * @size: size of the array
  *
- * Return: Nothing, it's a void functions
+ * Return: Nothing, it's a void function
  */
 
 void quick_sort(int *array, size_t size)

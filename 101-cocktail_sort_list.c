@@ -26,7 +26,7 @@ void swap_nodes(listint_t **list)
  *cocktail_sort_list - sort double linked list with cocktail sort
  *@list: double linked list to sort
  *
- *Return: Nothing, it's a void function
+ *Return: Nothing, it's a void functions
  */
 void cocktail_sort_list(listint_t **list)
 {

@@ -72,7 +72,7 @@ void hoare_qsort(int *array, int low, int high, size_t size)
 /**
  * quick_sort_hoare - Quick Sort Algorithme using hoare partition
  * @array: Array to sort
- * @size: Size of The Array
+ * @size: Size of The Arrays
  * Return: Sorted Array (void)
  */
 void quick_sort_hoare(int *array, size_t size)
