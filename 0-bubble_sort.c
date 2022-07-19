@@ -1,40 +1,47 @@
 #include "sort.h"
 
 /**
- *swap - swaps two integers.
- *@xp: Pointer to the first integer.
- *@yp: Pointer tothe second integer.
- *Return: Nothing.
+ * swap_values - swaps 2 values in an array of ints
+ *
+ * @array: the array of ints
+ * @i1: index of first value
+ * @i2: index of 2nd value
+ *
+ * Return: the array with value
  */
-void swap(int *xp, int *yp)
+
+void swap_values(int **array, ssize_t i1, ssize_t i2)
 {
-	int temp = *xp;
-	*xp = *yp;
-	*yp = temp;
+	int tmp;
+
+	tmp = (*array)[i1];
+	(*array)[i1] = (*array)[i2];
+	(*array)[i2] = tmp;
 }
 
 /**
- *bubble_sort - Sorts an array of integers in ascending order
- *@array: An array of integers to be sorted.
- *@size: Size of the array.
- *Return: Nothing.
+ * bubble_sort - sorts an array of integers using bubble sort
+ *
+ * @array: the array of integers
+ * @size: the size of the array
  */
+
 void bubble_sort(int *array, size_t size)
 {
-	size_t i, j;
+	size_t n = size, new_n, i;
 
-	if (array == NULL || size == 0)
-		return;
-
-	for (i = 0; i < size - 1; i++)
+	while (n > 1)
 	{
-		for (j = 0; j < size - 1; j++)
+		new_n = 0;
+		for (i = 1; i <= n - 1; i++)
 		{
-			if (array[j] > array[j + 1])
+			if (array[i - 1] > array[i])
 			{
-				swap(&array[j], &array[j + 1]);
+				swap_values(&array, i - 1, i);
 				print_array(array, size);
+				new_n = i;
 			}
 		}
+		n = new_n;
 	}
 }
