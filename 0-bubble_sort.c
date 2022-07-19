@@ -4,8 +4,8 @@
  * swap_values - swaps 2 values in an array of ints
  *
  * @array: the array of ints
- * @i1: index of first value
- * @i2: index of 2nd value
+ * @i1: index of first values
+ * @i2: index of 2nd values
  *
  * Return: the array with value
  */
