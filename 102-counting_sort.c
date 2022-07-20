@@ -1,53 +1,44 @@
 #include "sort.h"
-#include <stdlib.h>
 
 /**
- *counting_sort - sort and array by counting sort method
- *@array: input array to be sorted
- *@size: size of the arrays
- *
- *Return: Nothing,
+ * counting_sort - sorts an array with the Counting sort algorithm
+ * @array: array to sort
+ * @size: size of the array
  */
 void counting_sort(int *array, size_t size)
 {
-	size_t k;
-	int max_num, i;
-	int *count_array, *sort_array = malloc(size * sizeof(int));
+	int *count_arr, *out_arr, max, num, j, l;
+	size_t i, k, m, n;
 
 	if (size < 2)
 		return;
-	max_num = array[0];
-	if (sort_array == NULL)
-	{
-		free(sort_array);
-		return;
-	}
-	for (k = 0; k < size; k++)
-		sort_array[k] = array[k];
-	for (k = 0; k < size; k++)
-	{
-		if (array[k] > max_num)
-			max_num = array[k];
-	}
-	count_array = malloc((max_num + 1) * sizeof(int));
-	if (count_array == NULL)
-	{
-		free(count_array);
-			return;
-	}
-	for (i = 0; i <= max_num; i++)
-		count_array[i] = 0;
-	for (k = 0; k < size; k++)
-		count_array[array[k]]++;
-	for (i = 1; i <= max_num; i++)
-		count_array[i] = count_array[i] + count_array[i - 1];
-	print_array(count_array, max_num + 1);
+
+	max = array[0];
+	for (i = 1; i < size; i++)
+		if (array[i] > max)
+			max = array[i];
+
+	count_arr = malloc(sizeof(size_t) * (max + 1));
+	out_arr = malloc(sizeof(int) * size);
+
+	for (j = 0; j <= max; j++)
+		count_arr[j] = 0;
 	for (k = 0; k < size; k++)
 	{
-		sort_array[count_array[array[k]] - 1] = array[k];
-		count_array[array[k]] = count_array[array[k]] - 1;
+		num = array[k];
+		count_arr[num] += 1;
 	}
-	for (k = 0; k < size; k++)
-		array[k] = sort_array[k];
-	free(count_array), free(sort_array);
+	for (l = 1; l <= max; l++)
+		count_arr[l] += count_arr[l - 1];
+	print_array(count_arr, max + 1);
+	for (m = 0; m < size; m++)
+	{
+		out_arr[count_arr[array[m]] - 1] = array[m];
+		count_arr[array[m]]--;
+	}
+	for (n = 0; n < size; n++)
+		array[n] = out_arr[n];
+
+	free(count_arr);
+	free(out_arr);
 }
