@@ -1,112 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sort.h"
 #include "deck.h"
 
 /**
- * sort_deck - sorts a deck of card
- * @deck: doubly linked list to sort
+ * swap_next - swaps node with next node
+ *
+ * @deck: address of pointer to head
+ * @node: node to swap
  */
+
+void swap_next(deck_node_t **deck, deck_node_t *node)
+{
+	node->next->prev = node->prev;
+	if (node->prev)
+		node->prev->next = node->next;
+	else
+		*deck = node->next;
+	node->prev = node->next;
+	node->next = node->next->next;
+	node->prev->next = node;
+	if (node->next)
+		node->next->prev = node;
+}
+
+/**
+ * deck_len - returns the length of a card deck
+ *
+ * @h: head node to the deck
+ *
+ * Return: the size of the deck
+ */
+
+size_t deck_len(const deck_node_t *h)
+{
+	size_t cnt = 0;
+
+	while (h != NULL)
+	{
+		cnt++;
+		h = h->next;
+	}
+
+	return (cnt);
+}
+
+/**
+ * card_to_int - assigns a unique numeric value to each card
+ *
+ * @node: the card node to extract the value from
+ *
+ * Return: a unique card id
+ */
+
+int card_to_int(deck_node_t *node)
+{
+	int i;
+	char *values[13] = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9",
+			"10", "Jack", "Queen", "King"};
+
+	for (i = 0; i < 13; i++)
+	{
+		if (!strcmp(node->card->value, values[i]))
+			return (i + (13 * node->card->kind));
+	}
+
+	printf("Uh-oh. Card is out of range. I'm gonna crash now.");
+	exit(EXIT_FAILURE);
+}
+
+/**
+ * sort_deck - sorts the deck with cocktail shaker
+ *
+ * @deck: the card deck to sort
+ */
+
 void sort_deck(deck_node_t **deck)
 {
-	deck_node_t *curr;
-	size_t len;
-	deck_node_t *one, *two, *three, *four;
+	int swapped = 1, val1, val2;
+	size_t lo = 0, hi = (deck_len(*deck) - 1), i = 0;
+	deck_node_t *tmp = *deck;
 
-	len = list_len_deck(*deck);
-
-	if (!deck || !*deck || len < 2)
+	if (!deck || !(*deck) || !((*deck)->next))
 		return;
-
-	curr = *deck;
-	while (curr)
+	while (swapped)
 	{
-		if (curr->prev && card_value(curr) < card_value(curr->prev))
+		swapped = 0;
+		for (; i < hi; i++)
 		{
-			one = curr->prev->prev;
-			two = curr->prev;
-			three = curr;
-			four = curr->next;
-
-			two->next = four;
-			if (four)
-				four->prev = two;
-			three->next = two;
-			three->prev = one;
-			if (one)
-				one->next = three;
+			val1 = card_to_int(tmp);
+			val2 = card_to_int(tmp->next);
+			if (val2 < val1)
+			{
+				swap_next(deck, tmp);
+				swapped = 1;
+			}
 			else
-				*deck = three;
-			two->prev = three;
-			curr = *deck;
-			continue;
+				tmp = tmp->next;
 		}
-		else
-			curr = curr->next;
-	}
-}
-
-/**
- * card_value - returns the value of a card
- * @node: card in a deck
- *
- * Return: value between 1 and 52
- */
-int card_value(deck_node_t *node)
-{
-	char *val[13] = {"Ace", "2", "3", "4", "5", "6",
-		"7", "8", "9", "10", "Jack", "Queen", "King"};
-	char *kinds[4] = {"SPADE", "HEART", "CLUB", "DIAMOND"};
-	int i, kind_val = 0;
-
-	for (i = 1; i <= 13; i++)
-	{
-		if (!_strcmp(node->card->value, val[i - 1]))
-			kind_val = i;
-	}
-
-	for (i = 1; i <= 4; i++)
-	{
-		if (!_strcmp(kinds[node->card->kind], kinds[i - 1]))
-			kind_val = kind_val + (13 * i);
-	}
-
-	return (kind_val);
-}
-
-/**
- * _strcmp - compares two strings
- * @s1: first string to compare
- * @s2: second string to compare
- *
- * Return: less than 0 if s1 is less than s2, 0 if they're equal,
- * more than 0 if s1 is greater than s2
- */
-int _strcmp(const char *s1, const char *s2)
-{
-	while (*s1 == *s2)
-	{
-		if (*s1 == '\0')
+		if (!swapped)
+			break;
+		swapped = 0;
+		for (; i > lo; i--)
 		{
-			return (0);
+			val1 = card_to_int(tmp);
+			val2 = card_to_int(tmp->prev);
+			if (val2 > val1)
+			{
+				swap_next(deck, tmp->prev);
+				swapped = 1;
+			}
+			else
+				tmp = tmp->prev;
 		}
-		s1++;
-		s2++;
+		hi -= 1;
+		lo += 1;
 	}
-	return (*s1 - *s2);
-}
-
-/**
- * list_len_deck - function returns length of list
- * @list: head of list
- *
- * Return: length
- */
-size_t list_len_deck(deck_node_t *list)
-{
-	size_t len = 0;
-
-	while (list)
-	{
-		len++;
-		list = list->next;
-	}
-	return (len);
 }
